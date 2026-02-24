@@ -19,6 +19,15 @@ The goal of this project is to build a functional Security Operations Center (SO
 - [x] Integrated **SwiftOnSecurity’s configuration** to reduce log noise and prioritize high-fidelity indicators of compromise (IoCs).
 - [x] Verified Event ID 1 (Process Creation) and Event ID 3 (Network Connection) generation in Windows Event Viewer.
 
+### 📡 Phase 3: Data Ingestion
+- [x] Installed **Splunk Universal Forwarder (UF)** on Windows 11.
+- [x] Configured `inputs.conf` for automated Sysmon log tailing.
+- [x] Established successful data pipeline between Endpoint (`10.0.0.20`) and Indexer (`10.0.0.10`).
+
+### ⚔️ Phase 4: Adversary Emulation
+- [x] Deployed **Kali Linux** as the attack node on the `10.0.0.0/24` subnet.
+- [x] Conducted network reconnaissance using **Nmap** to test detection capabilities.
+- [x] Verified **Event ID 3 (Network Connection)** ingestion in Splunk, successfully mapping the attacker's IP (`10.0.0.30`) to the victim's ports.
 
 ### 🌐 Network Topology
 ![Network Diagram](./network/NetworkDiagram.png)
