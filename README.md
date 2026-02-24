@@ -12,4 +12,4 @@ The goal of this project is to build a functional Security Operations Center (SO
 - [ ] Deploy Sysmon & Universal Forwarder.
 
 ### 🌐 Network Topology
-![Network Diagram](./network/topology.png)
+![Network Diagram](./network/Network Diagram.png)
