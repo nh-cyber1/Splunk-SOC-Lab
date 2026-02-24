@@ -8,8 +8,9 @@ The goal of this project is to build a functional Security Operations Center (SO
 - [x] Installed Splunk Enterprise.
 - [x] **Hardening:** Migrated Splunk service to a non-root user account (`splunk`).
 - [x] Configured `systemd` for service persistence.
-- [ ] Install Windows 10/11 Victim (In Progress).
+- [x] Install Windows 10/11 Victim.
 - [ ] Deploy Sysmon & Universal Forwarder.
 
 ### 🌐 Network Topology
 ![Network Diagram](./network/NetworkDiagram.png)
+"Configured static IP assignments for endpoint telemetry; currently utilizing a flat network topology with DNS resolution deferred to the local host for simplified log routing during Phase 1."
