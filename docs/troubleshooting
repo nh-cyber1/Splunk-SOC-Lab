@@ -3,3 +3,20 @@
 Configuration Hardening: Refined the inputs.conf stanzas to ensure the Splunk Universal Forwarder had the correct URI path for the Sysmon Operational channel. Verified service permissions to ensure the SplunkForwarder service had sufficient privileges to access extended Windows Event Logs.
 
 Networking Refinement: Resolved a "Network Unreachable" error on the Kali attack node by flushing the IP table and manually defining the routing path for the 10.0.0.0/24 subnet
+
+🛠️ Technical Troubleshooting: Resolving Telemetry Gaps
+During the setup of the SOC pipeline, a "Visibility Gap" was identified where network activities on the Windows victim (10.0.0.20) were not appearing in Splunk. The following steps were taken to remediate the issue:
+
+Network Path Validation: Verified connectivity between the Kali Linux attack node and Windows Victim using ping and nc -nvz. Identified that DNS resolution was failing in the isolated subnet; resolved by enforcing numeric-only (-n) flags across all attack tools.
+
+Endpoint Telemetry Tuning: Discovered that the initial Sysmon configuration was too restrictive. Deployed a custom, permissive XML schema (onmatch="exclude") to ensure the capture of Event ID 3 (Network Connection) for all system processes.
+
+Service Privilege Escalation: Identified a permission bottleneck where the Splunk Universal Forwarder (UF) lacked access to the Sysmon Operational channel. Reconfigured the Splunk Forwarder service to run under the LocalSystem context.
+
+ACL Remediation: Manually adjusted the Channel Access Control List (ACL) using the wevtutil command to grant the Event Log Readers group explicit permissions to read the Sysmon event stream.
+
+Indexer Sync (Fishbucket Reset): Cleared the Splunk UF fishbucket checkpoints to force a re-indexing of the Sysmon logs, ensuring that "lost" events during the configuration phase were successfully backfilled into the SIEM.
+
+Result: Successfully established a real-time data pipeline, confirmed by the ingestion of Nmap scan telemetry and automated brute-force alerts.
+
+
