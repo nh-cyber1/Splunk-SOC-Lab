@@ -13,4 +13,5 @@ The goal of this project is to build a functional Security Operations Center (SO
 
 ### 🌐 Network Topology
 ![Network Diagram](./network/NetworkDiagram.png)
+
 "Configured static IP assignments for endpoint telemetry; currently utilizing a flat network topology with DNS resolution deferred to the local host for simplified log routing during Phase 1."
