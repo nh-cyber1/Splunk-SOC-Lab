@@ -1,0 +1,5 @@
+"Troubleshot a log ingestion failure by analyzing _internal index metrics and verifying socket states via netstat. Identified a firewall mismatch on the indexer and corrected the inputs.conf stanza for Sysmon event routing."
+
+Configuration Hardening: Refined the inputs.conf stanzas to ensure the Splunk Universal Forwarder had the correct URI path for the Sysmon Operational channel. Verified service permissions to ensure the SplunkForwarder service had sufficient privileges to access extended Windows Event Logs.
+
+Networking Refinement: Resolved a "Network Unreachable" error on the Kali attack node by flushing the IP table and manually defining the routing path for the 10.0.0.0/24 subnet
