@@ -12,7 +12,13 @@ The goal of this project is to build a functional Security Operations Center (SO
 - [x] Milestone: Bi-Directional Connectivity Established
       Validation: Successfully performed ICMP echo requests between (SIEM) and (Endpoint).
       Firewall Configuration: Applied granular inbound rules to the Windows 11 victim to allow ICMP traffic for connectivity testing while maintaining a hardened            posture for other non-essential ports.
-- [ ] Deploy Sysmon & Universal Forwarder.
+- [X] Deploy Sysmon & Universal Forwarder.
+
+### 🔍 Phase 2: Endpoint Telemetry
+- [x] Deployed **Microsoft Sysmon** for advanced system logging.
+- [x] Integrated **SwiftOnSecurity’s configuration** to reduce log noise and prioritize high-fidelity indicators of compromise (IoCs).
+- [x] Verified Event ID 1 (Process Creation) and Event ID 3 (Network Connection) generation in Windows Event Viewer.
+
 
 ### 🌐 Network Topology
 ![Network Diagram](./network/NetworkDiagram.png)
