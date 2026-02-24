@@ -9,10 +9,9 @@ The goal of this project is to build a functional Security Operations Center (SO
 - [x] **Hardening:** Migrated Splunk service to a non-root user account (`splunk`).
 - [x] Configured `systemd` for service persistence.
 - [x] Install Windows 10/11 Victim.
-- [x] ✅ Milestone: Bi-Directional Connectivity Established
-Validation: Successfully performed ICMP echo requests between 10.0.0.10 (SIEM) and 10.0.0.20 (Endpoint).
-
-Firewall Configuration: Applied granular inbound rules to the Windows 11 victim to allow ICMP traffic for connectivity testing while maintaining a hardened posture for other non-essential ports.
+- [x] Milestone: Bi-Directional Connectivity Established
+      Validation: Successfully performed ICMP echo requests between (SIEM) and (Endpoint).
+      Firewall Configuration: Applied granular inbound rules to the Windows 11 victim to allow ICMP traffic for connectivity testing while maintaining a hardened            posture for other non-essential ports.
 - [ ] Deploy Sysmon & Universal Forwarder.
 
 ### 🌐 Network Topology
