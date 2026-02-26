@@ -3,31 +3,32 @@
 ## 📌 Project Overview
 The goal of this project is to build a functional Security Operations Center (SOC) environment to simulate real-world cyber attacks and analyze them using Splunk.
 
-### 🏗️ Current Progress: Phase 1 (Infrastructure)
-- [x] Deployed Ubuntu Server 22.04 LTS.
-- [x] Installed Splunk Enterprise.
-- [x] **Hardening:** Migrated Splunk service to a non-root user account (`splunk`).
-- [x] Configured `systemd` for service persistence.
-- [x] Install Windows 10/11 Victim.
-- [x] Milestone: Bi-Directional Connectivity Established
-      Validation: Successfully performed ICMP echo requests between (SIEM) and (Endpoint).
-      Firewall Configuration: Applied granular inbound rules to the Windows 11 victim to allow ICMP traffic for connectivity testing while maintaining a hardened            posture for other non-essential ports.
-- [X] Deploy Sysmon & Universal Forwarder.
+📍 Phase 1: Infrastructure & Virtual Networking
 
-### 🔍 Phase 2: Endpoint Telemetry
-- [x] Deployed **Microsoft Sysmon** for advanced system logging.
-- [x] Integrated **SwiftOnSecurity’s configuration** to reduce log noise and prioritize high-fidelity indicators of compromise (IoCs).
-- [x] Verified Event ID 1 (Process Creation) and Event ID 3 (Network Connection) generation in Windows Event Viewer.
+Virtualization: Configured VMware/VirtualBox with an isolated host-only network (e.g., 10.0.0.0/24).
+Endpoints: Deployed a Windows 11 Target and a Kali Linux Attack Node.
+Static Addressing: Configured manual IP assignments to ensure consistent communication between nodes.
 
-### 📡 Phase 3: Data Ingestion
-- [x] Installed **Splunk Universal Forwarder (UF)** on Windows 11.
-- [x] Configured `inputs.conf` for automated Sysmon log tailing.
-- [x] Established successful data pipeline between Endpoint (`10.0.0.20`) and Indexer (`10.0.0.10`).
+📍 Phase 2: Telemetry & Log Ingestion (The "Eyes")
 
-### ⚔️ Phase 4: Adversary Emulation
-- [x] Deployed **Kali Linux** as the attack node on the `10.0.0.0/24` subnet.
-- [x] Conducted network reconnaissance using **Nmap** to test detection capabilities.
-- [x] Verified **Event ID 3 (Network Connection)** ingestion in Splunk, successfully mapping the attacker's IP (`10.0.0.30`) to the victim's ports.
+Sysmon Deployment: Installed and configured Sysmon on the Windows target using a custom XML schema (like SwiftOnSecurity) to capture granular process and network data.
+Splunk Installation: Set up Splunk Enterprise to act as the central SIEM.
+Universal Forwarder (UF): Configured the Splunk UF on the Windows machine to ship logs (Security, System, and Sysmon) to the indexer.
+
+📍 Phase 3: Defensive Hardening & Troubleshooting
+
+Audit Policy Tuning: Enabled "Audit Logon Failure" via auditpol to ensure Windows actually records 4625 events.
+Bypassing Security Baselines: Modified Windows registry and SMB settings to allow lab-based brute force testing while documenting why modern Windows defaults (Rate Limiting/Stealth Mode) block these attacks.
+ACL & Permission Fixes: Resolved UF permission issues to allow the forwarder to read the Sysmon and Security event streams.
+
+📍 Phase 4: Attack Simulation & Detection (Where you are now!)
+
+Brute Force Attacks: Executed RDP and SMB brute force simulations using Hydra and NetExec.
+Detection Engineering: Built Splunk queries to identify Event ID 4625 (Failed Logon) and differentiated between Local (Type 2) and Network (Type 3) logins.
+Dashboarding: Created a real-time SOC dashboard to visualize the volume and source of incoming attacks.
+
+Current PRogress:
+[ ] Project: Detecting LSASS Memory Dumping
 
 ### 🌐 Network Topology
 ![Network Diagram](./network/NetworkDiagram.png)
