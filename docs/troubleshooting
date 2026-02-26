@@ -5,35 +5,28 @@ Configuration Hardening: Refined the inputs.conf stanzas to ensure the Splunk Un
 Networking Refinement: Resolved a "Network Unreachable" error on the Kali attack node by flushing the IP table and manually defining the routing path for the 10.0.0.0/24 subnet
 
 🛠️ Technical Troubleshooting: Resolving Telemetry Gaps
+
 During the setup of the SOC pipeline, a "Visibility Gap" was identified where network activities on the Windows victim (10.0.0.20) were not appearing in Splunk. The following steps were taken to remediate the issue:
-
 Network Path Validation: Verified connectivity between the Kali Linux attack node and Windows Victim using ping and nc -nvz. Identified that DNS resolution was failing in the isolated subnet; resolved by enforcing numeric-only (-n) flags across all attack tools.
-
 Endpoint Telemetry Tuning: Discovered that the initial Sysmon configuration was too restrictive. Deployed a custom, permissive XML schema (onmatch="exclude") to ensure the capture of Event ID 3 (Network Connection) for all system processes.
-
 Service Privilege Escalation: Identified a permission bottleneck where the Splunk Universal Forwarder (UF) lacked access to the Sysmon Operational channel. Reconfigured the Splunk Forwarder service to run under the LocalSystem context.
-
 ACL Remediation: Manually adjusted the Channel Access Control List (ACL) using the wevtutil command to grant the Event Log Readers group explicit permissions to read the Sysmon event stream.
-
 Indexer Sync (Fishbucket Reset): Cleared the Splunk UF fishbucket checkpoints to force a re-indexing of the Sysmon logs, ensuring that "lost" events during the configuration phase were successfully backfilled into the SIEM.
-
 Result: Successfully established a real-time data pipeline, confirmed by the ingestion of Nmap scan telemetry and automated brute-force alerts.
+
+Challenge: Security software (Windows Defender) was successfully blocking attacks, but these critical "Block" events were not appearing in the SIEM.
+Root Cause: The default Splunk Universal Forwarder configuration only monitored standard Security/System logs and did not include the specific Windows Defender Operational channel.
+Resolution: Modified the inputs.conf file to include the Microsoft-Windows-Windows Defender/Operational path. This enabled the SOC to monitor not just successful attacks, but also prevented attempts, providing a more complete security posture.
 
 
 🛠️ Technical Troubleshooting: Simulating Brute Force on Windows 11
+
 During the simulation phase, I encountered significant challenges generating and ingesting Event ID 4625 (Failed Logon) from the Kali Linux attack node. Modern Windows security features were effectively "silencing" the attack. I performed the following remediation steps:
-
 Enabling Audit Policies: Windows 11 does not log failed attempts by default. I utilized auditpol to manually enable "Failure" auditing for the Logon/Logoff subcategory, forcing the OS to generate telemetry for failed credentials.
-
 Bypassing NLA (Network Level Authentication): Identified that RDP attacks were being dropped at the network layer. I disabled NLA and modified RDP settings to allow the "handshake" to reach the authentication service.
-
 Disabling SMB Hardening & Rate Limiting: Windows 11 (24H2+) features a default SMB Authentication Rate Limiter. I utilized PowerShell to set InvalidAuthenticationDelayTimeInMs to 0 and disabled mandatory SMB signing, preventing the Windows VM from "timing out" the Kali node during automated attempts.
-
 Protocol Adaptation (Legacy vs. Modern): Discovered that legacy tools like Hydra often failed the NetBIOS handshake due to SMBv1/v2 deprecation. Successfully pivoted to NetExec (NXC) to utilize modern SMBv3 dialects, resulting in successful Logon Type 3 (Network) event generation.
-
 Security Log Onboarding: Reconfigured the Splunk Universal Forwarder inputs.conf to specifically monitor the WinEventLog://Security channel, which is separate from the Sysmon channel, ensuring failed logins were indexed in the SIEM.
-
 Logon Type Differentiation: Validated the difference between Logon Type 2 (local keyboard attempts) and Logon Type 3 (network-based attacks from Kali) to ensure the SOC dashboard accurately identified remote threats.
-
 Result: Achieved a consistent telemetry stream from the attack node to Splunk, enabling the creation of a high-fidelity "Brute Force Monitor" dashboard.
 
