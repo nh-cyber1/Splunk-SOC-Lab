@@ -9,7 +9,7 @@ Virtualization: Configured VMware/VirtualBox with an isolated host-only network 
 Endpoints: Deployed a Windows 11 Target and a Kali Linux Attack Node.
 Static Addressing: Configured manual IP assignments to ensure consistent communication between nodes.
 
-📍 Phase 2: Telemetry & Log Ingestion (The "Eyes")
+📍 Phase 2: Telemetry & Log Ingestion
 
 Sysmon Deployment: Installed and configured Sysmon on the Windows target using a custom XML schema (like SwiftOnSecurity) to capture granular process and network data.
 Splunk Installation: Set up Splunk Enterprise to act as the central SIEM.
@@ -21,13 +21,14 @@ Audit Policy Tuning: Enabled "Audit Logon Failure" via auditpol to ensure Window
 Bypassing Security Baselines: Modified Windows registry and SMB settings to allow lab-based brute force testing while documenting why modern Windows defaults (Rate Limiting/Stealth Mode) block these attacks.
 ACL & Permission Fixes: Resolved UF permission issues to allow the forwarder to read the Sysmon and Security event streams.
 
-📍 Phase 4: Attack Simulation & Detection (Where you are now!)
+📍 Phase 4: Attack Simulation & Detection
 
 Brute Force Attacks: Executed RDP and SMB brute force simulations using Hydra and NetExec.
 Detection Engineering: Built Splunk queries to identify Event ID 4625 (Failed Logon) and differentiated between Local (Type 2) and Network (Type 3) logins.
 Dashboarding: Created a real-time SOC dashboard to visualize the volume and source of incoming attacks.
 
-Current PRogress:
+Current Progress:
+
 [ ] Project: Detecting LSASS Memory Dumping
 
 ### 🌐 Network Topology
