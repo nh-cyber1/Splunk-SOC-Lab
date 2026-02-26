@@ -27,9 +27,12 @@ Brute Force Attacks: Executed RDP and SMB brute force simulations using Hydra an
 Detection Engineering: Built Splunk queries to identify Event ID 4625 (Failed Logon) and differentiated between Local (Type 2) and Network (Type 3) logins.
 Dashboarding: Created a real-time SOC dashboard to visualize the volume and source of incoming attacks.
 
-Current Progress:
+📍 Phase 5: Automated Alerting & Incident Response
 
-[ ] Project: Detecting LSASS Memory Dumping
+Objective: Transition the SIEM from a passive visualization tool to an active alerting system.
+Implementation: Engineered a Real-Time Splunk Alert configured to monitor the Microsoft-Windows-Windows Defender/Operational channel for Event ID 1116.
+Logic: Implemented a Per-Result trigger with a 1-minute throttle to prevent alert fatigue during rapid-fire infection attempts.
+Impact: This ensures that SOC analysts are notified immediately upon a threat being blocked, facilitating a faster "Time to Respond" (TTR) for endpoint containment.
 
 ### 🌐 Network Topology
 ![Network Diagram](./network/NetworkDiagram.png)
